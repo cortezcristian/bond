@@ -25,7 +25,8 @@ process.env.PORT = config.app.port;
 // Setup vars
 app.use(function(req, res, next){
   res.locals.envflag = config.envflag || process.env.NODE_ENV;
-  res.locals.domain = config.app.domain || 'http://localhost:3000';
+  res.locals.domain = config.app.domain || '127.0.0.1:3000';
+  res.locals.domain_url = config.app.domain_url || 'http://localhost:3000';
   next();
 });
 

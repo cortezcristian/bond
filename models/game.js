@@ -5,11 +5,15 @@
 //  - Mongoose (http://mongoosejs.com/docs/guide.html)
 //
 var mongoose = require('mongoose'),
+    randomstring = require("randomstring"),
     Schema = mongoose.Schema;
 
 var gameSchema = new Schema({
     name        : String,
     code        : String,
+    num_players : Number,
+    players     : [], // 2-5 Players
+    creator     : { type  : Schema.Types.ObjectId, ref : 'Users' },
 	  created     : Date
 });
 
@@ -17,7 +21,7 @@ var gameSchema = new Schema({
 // #### Pre-Save
 gameSchema.pre("save", function(next) {
     if(!this.code) {
-        this.code = new Date();
+        this.code = randomstring.generate(7);
     }
     if(!this.created)
         this.created = new Date();

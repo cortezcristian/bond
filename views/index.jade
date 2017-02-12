@@ -1,14 +1,26 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  div#messages(style="height:300px; overflow:auto;border:1px solid; black")
-  input#send(type="text",style="width: 99%;")
+  h1 Bond
+  .list.list-inset
+    label.item.item-input.item-stacked-label
+      span.input-label Nickname
+      input#inpuy(type='text', placeholder='Username', ng-model='data.username')
+    label.item.item-select
+      span.input-label Players
+      select
+        option(value="1") 1
+        option(value="2") 2
+        option(value="3") 3
+        option(value="4") 4
+        option(value="5") 5
+    button.button.button-block.button-calm Create Game
+
   script(src="/components/jquery/dist/jquery.js")
   script(src="/socket.io/socket.io.js")
   script.
       var socket = io.connect(window.location.href);
+      /*
       var nickname = prompt();
       socket.emit("join", nickname);
       socket.on('reciveUserList', function (data) {
@@ -29,3 +41,4 @@ block content
             }
           });
       });
+      */

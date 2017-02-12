@@ -17,5 +17,8 @@
   "description": "",
   "main": "",
   "moduleType": [],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "ionic": "bower-ionic#^1.3.2"
+  }
 }

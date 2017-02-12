@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall":"bower install",
+    "postinstall": "bower install",
+    "test": "./node_modules/mocha/bin/mocha"
     "start": "grunt"
   },
   "dependencies": {
@@ -23,6 +24,7 @@
     "grunt-contrib-stylus": "^1.0.0",
     "grunt-contrib-watch": "^0.6.1",
     "request": "^2.60.0",
+    "mocha": "~1.21.4",
     "time-grunt": "^1.2.1",
     "load-grunt-tasks": "^3.2.0"
   }

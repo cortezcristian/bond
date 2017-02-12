@@ -5,6 +5,7 @@
 //  - Mongoose (http://mongoosejs.com/docs/guide.html)
 //
 var mongoose = require('mongoose'),
+    Games = require('./game.js'),
     Schema = mongoose.Schema;
 
 var userSchema = new Schema({
@@ -19,6 +20,15 @@ userSchema.pre("save", function(next) {
         this.created = new Date();
     }
     next();
+});
+
+// ### Method:
+userSchema.method("createGame", function(num_players, cb) {
+    var user = this;
+    var game = new Games();
+    game.num_players = num_players;
+    game.creator = user._id
+    game.save(cb);
 });
 
 // ### Static:

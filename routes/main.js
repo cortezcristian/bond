@@ -7,6 +7,8 @@ var app = module.parent.exports.app,
 app.post('/create', function(req, res){
   console.log(req.body);
   Users.findOrCreate(req.body.nickname, function(err, user){
-    res.json(user);
+    user.createGame(req.body.num_players, function(err, game){
+      res.json(game);
+    });
   });
 });

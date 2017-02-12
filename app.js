@@ -20,11 +20,12 @@ var app = exports.app = express();
 var env = process.env.NODE_ENV || 'development';
 app.locals.ENV = env;
 app.locals.ENV_DEVELOPMENT = env == 'development';
+process.env.PORT = config.app.port;
 
 // Setup vars
 app.use(function(req, res, next){
   res.locals.envflag = config.envflag || process.env.NODE_ENV;
-  res.locals.domain = config.domain || 'http://localhost:3000';
+  res.locals.domain = config.app.domain || 'http://localhost:3000';
   next();
 });
 

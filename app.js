@@ -3,6 +3,7 @@ process.on('uncaughtException', function(err) {
   console.log("Exception", err.stack);
 });
 
+var config = exports.config = require('./config');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -19,6 +20,13 @@ var app = exports.app = express();
 var env = process.env.NODE_ENV || 'development';
 app.locals.ENV = env;
 app.locals.ENV_DEVELOPMENT = env == 'development';
+
+// Setup vars
+app.use(function(req, res, next){
+  res.locals.envflag = config.envflag || process.env.NODE_ENV;
+  res.locals.domain = config.domain || 'http://localhost:3000';
+  next();
+});
 
 // Database Connection
 var dbConex = exports.dbConex = mongoose.connect('mongodb://localhost/gamedb');

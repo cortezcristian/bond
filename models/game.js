@@ -13,7 +13,7 @@ var gameSchema = new Schema({
     code        : String,
     num_players : Number,
     players     : [], // 2-5 Players
-    creator     : { type  : Schema.Types.ObjectId, ref : 'Users' },
+    creator     : { type  : Schema.Types.ObjectId, ref : 'User' },
 	  created     : Date
 });
 

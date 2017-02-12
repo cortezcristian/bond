@@ -14,12 +14,12 @@ block content
       .item.item-divider Players in the room 1 of #{num_players}
       .item.item-text-wrap
         ul.list
-          - for(var i = 0; i <= num_players-1; i++) {
-            li.item=players[i]
-          - }
+          - players.forEach(function(p){
+            li.item=p.nickname
+          - })
     .list.list-inset
-      button.button.button-full.button-positive Start game
-  
+      button.button.button-full.button-positive Start Game
+
   script(src="/components/jquery/dist/jquery.js")
   script(src="/socket.io/socket.io.js")
   script.

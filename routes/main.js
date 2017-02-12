@@ -6,8 +6,10 @@ var app = module.parent.exports.app,
 
 app.post('/create', function(req, res){
   Users.findOrCreate(req.body.nickname, function(err, user){
-    user.createGame(req.body.num_players, function(err, game){
-      res.render('share', { code: game.code, num_players: game.num_players, players: game.players });
+    user.createGame(req.body.num_players, function(err, g){
+      Games.populate(g, { path: 'players', model: 'User' }, function(err, game){
+        res.render('share', { code: game.code, num_players: game.num_players, players: game.players });
+      });
     });
   });
 });

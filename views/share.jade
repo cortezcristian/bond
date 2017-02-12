@@ -14,8 +14,8 @@ block content
       .item.item-divider Players in the room 1 of #{num_players}
       .item.item-text-wrap
         ul.list
-          - for(var i = 1; i <= num_players; i++) {
-            li.item=i
+          - for(var i = 0; i <= num_players-1; i++) {
+            li.item=players[i]
           - }
     .list.list-inset
       button.button.button-full.button-positive Start game

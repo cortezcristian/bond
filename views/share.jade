@@ -1,12 +1,25 @@
 extends layout
 
 block content
-  h1 Bond
-  p Share URL or Code
-  input(type="text", value="http://localhost:3000/join/"+code)
-
-  p Users Logged in 1 of #{num_players}
-
+  .content
+    .card
+      .item.item-divider Share URL or Code
+      .item.item-text-wrap
+        .item.item-input-inset
+          label.item-input-wrapper
+            input(type="text", value="http://localhost:3000/join/"+code)
+          button.button.button-small.button-positive Copy
+          //- button.button.button-small.button-positive Share
+    .card
+      .item.item-divider Players in the room 1 of #{num_players}
+      .item.item-text-wrap
+        ul.list
+          - for(var i = 1; i <= num_players; i++) {
+            li.item=i
+          - }
+    .list.list-inset
+      button.button.button-full.button-positive Start game
+  
   script(src="/components/jquery/dist/jquery.js")
   script(src="/socket.io/socket.io.js")
   script.

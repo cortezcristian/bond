@@ -24,9 +24,15 @@ userSchema.pre("save", function(next) {
 // ### Static:
 userSchema.statics.findOrCreate = function (nickname, cb) {
   var User = this;
-  User.findOne({ nickname : nickname}, function(err, user){
-    if(!user) {
-      user = new User({nickname: nickname });
+  User.findOne({ nickname : nickname }, function(err, user){
+
+    if(err) {
+      cb(err);
+    } else if(!user) {
+      // Creating user
+      console.log("creating user", nickname);
+      user = new User();
+      user.nickname = nickname;
       user.save(cb);
     } else {
       cb(err, user);

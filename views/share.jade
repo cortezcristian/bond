@@ -18,7 +18,7 @@ block content
             li.item=p.nickname
           - })
     .list.list-inset
-      button.button.button-full.button-positive Start Game
+      a.button.button-full.button-positive(href="http://localhost:3000/game/"+code) Start Game
 
   script(src="/components/jquery/dist/jquery.js")
   script(src="/socket.io/socket.io.js")

@@ -17,6 +17,7 @@ var gameSchema = new Schema({
     last_random : { type  : String, default : '' },
     last_entered : { type  : String, default : '' },
     last_longitute : { type  : Number, default : 4 },
+    status      : { type  : String, default : 'In Progress' }, // Win, Lost
     rounds : [], // rounds history
 	  created     : Date
 });
@@ -40,8 +41,20 @@ gameSchema.pre("save", function(next) {
 });
 
 // ### Method:
-gameSchema.method("instanceMethod", function(param, cb) {
+gameSchema.method("try", function(number, cb) {
     var game = this;
+    game.last_entered += ""+number;
+    var regex = new RegExp("^"+game.last_entered);
+    if(game.last_random.match(regex)){
+      if(game.last_entered.length === game.last_random.length){
+        game.status = "You Win";
+        // TODO: In case of win
+        // create a new round and reset the game
+      }
+    } else {
+      game.status = "You Lost";
+    }
+    console.log("Game Status: ", game.status, game);
     this.save(cb);
 });
 

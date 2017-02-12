@@ -1,10 +1,15 @@
 extends layout
-
 block content
-  pre=game
-  - for(var i = 1; i <= 6; i++) {
-    button.button.button-block.button-calm=i
-  - }
+  .row.responsive-sm
+    .col
+      h3.title=game.status
+    .col
+      pre=game
+      - if (/In Progress/.test(game.status)){
+      - for(var i = 1; i <= 6; i++) {
+        a.button.button-block.button-calm(href="http://localhost:3000/game/"+code+"/"+i)=i
+      - }
+      - }
 
   script(src="/components/jquery/dist/jquery.js")
   script(src="/socket.io/socket.io.js")

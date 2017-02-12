@@ -5,10 +5,9 @@ var app = module.parent.exports.app,
   Users = require('../models/user.js');
 
 app.post('/create', function(req, res){
-  console.log(req.body);
   Users.findOrCreate(req.body.nickname, function(err, user){
     user.createGame(req.body.num_players, function(err, game){
-      res.render('sahre', { code: game.code, num_players: game.num_players });
+      res.render('share', { code: game.code, num_players: game.num_players });
     });
   });
 });

@@ -5,11 +5,11 @@ block content
       h3.title=game.status
     .col
       pre=game
-      - if (/In Progress/.test(game.status)){
+      //- if (/In Progress/.test(game.status)){
       - for(var i = 1; i <= 6; i++) {
         a.button.button-block.button-calm(href=domain_url+"/game/"+code+"/"+i)=i
       - }
-      - }
+      //- }
 
   script(src="/components/jquery/dist/jquery.js")
   script(src="/socket.io/socket.io.js")

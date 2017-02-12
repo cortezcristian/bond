@@ -1,6 +1,7 @@
 {
   "app": {
       "domain" : "0.0.0.0",
+      "domainurl" : "http://joinbond.me",
       "port": 80
   }
 }

@@ -10,11 +10,9 @@ block content
       label.item.item-select
         span.input-label Players
         select(name="num_players")
-          option(value="1") 1
-          option(value="2") 2
-          option(value="3") 3
-          option(value="4") 4
-          option(value="5") 5
+          - for(var i = 2; i <= 8; i++) {
+            option(value=i)=i
+          - }
       button.button.button-block.button-calm(type="submit") Create Game
 
   script(src="/components/jquery/dist/jquery.js")

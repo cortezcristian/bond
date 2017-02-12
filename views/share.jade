@@ -7,8 +7,8 @@ block content
       .item.item-text-wrap
         .item.item-input-inset
           label.item-input-wrapper
-            input(type="text", value="http://localhost:3000/join/"+code)
-          button.button.button-small.button-positive Copy
+            input#copy-target(type="text", value="http://localhost:3000/join/"+code)
+          button.button.button-small.button-positive(data-clipboard-action="copy" data-clipboard-target="#copy-target") Copy
           //- button.button.button-small.button-positive Share
     .card
       .item.item-divider Players in the room 1 of #{num_players}

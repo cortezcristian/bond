@@ -7,7 +7,7 @@ block content
       .item.item-text-wrap
         .item.item-input-inset
           label.item-input-wrapper
-            input(type="text", value="#{res.locals.domain}/join/"+code)
+            input(type="text", value=domain_url+"/join/"+code)
           button.button.button-small.button-positive Copy
           //- button.button.button-small.button-positive Share
     .card
@@ -18,7 +18,7 @@ block content
             li.item=p.nickname
           - })
     .list.list-inset
-      a.button.button-full.button-positive(href="#{res.locals.domain}/game/"+code) Start Game
+      a.button.button-full.button-positive(href=domain_url+"/game/"+code) Start Game
 
   script(src="/components/jquery/dist/jquery.js")
   script(src="/socket.io/socket.io.js")

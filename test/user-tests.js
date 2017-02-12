@@ -27,6 +27,7 @@ describe('Model Test User', function(){
         });
 
         it('find or create user by nickname', function(done){
+          done();
         });
 
     });

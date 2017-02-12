@@ -28,7 +28,25 @@ userSchema.method("createGame", function(num_players, cb) {
     var game = new Games();
     game.num_players = num_players;
     game.creator = user._id
+    game.players = [];
+    game.players.push(user._id);
     game.save(cb);
+});
+
+// ### Method:
+userSchema.method("joinGame", function(code, cb) {
+    var user = this;
+    Games.findOne({code: code}, function(err, game){
+      console.log("Game found:", game);
+      if(err) {
+        return cb(err);
+      }
+      if(!game){
+        return cb(new Error("Game not found"));
+      }
+      game.players.push(user._id);
+      game.save(cb);
+    });
 });
 
 // ### Static:

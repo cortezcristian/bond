@@ -31,6 +31,6 @@ app.post('/join/:code', function(req, res){
 
 app.get('/game/:code', function(req, res){
   Games.findOne({ code: req.params.code }, function(err, game){
-    res.render('game', { code: game.code, num_players: game.num_players });
+    res.render('game', { code: game.code, num_players: game.num_players, game: game });
   });
 });

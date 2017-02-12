@@ -7,7 +7,7 @@ block content
       pre=game
       - if (/In Progress/.test(game.status)){
       - for(var i = 1; i <= 6; i++) {
-        a.button.button-block.button-calm(href="http://localhost:3000/game/"+code+"/"+i)=i
+        a.button.button-block.button-calm(href="#{res.locals.domain}/game/"+code+"/"+i)=i
       - }
       - }
 

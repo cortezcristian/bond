@@ -14,17 +14,28 @@ var gameSchema = new Schema({
     num_players : Number,
     players     : [], // 2-5 Players
     creator     : { type  : Schema.Types.ObjectId, ref : 'User' },
+    last_random : { type  : String, default : '' },
+    last_entered : { type  : String, default : '' },
+    last_longitute : { type  : Number, default : 4 },
+    rounds : [], // rounds history
 	  created     : Date
 });
 
 // ### Hooks
 // #### Pre-Save
 gameSchema.pre("save", function(next) {
-    if(!this.code) {
-        this.code = randomstring.generate(7);
+    var doc = this;
+    if(!doc.code) {
+        doc.code = randomstring.generate(7);
     }
-    if(!this.created)
-        this.created = new Date();
+    if(!doc.last_random || doc.last_random === ""){
+        doc.last_random = randomstring.generate({
+          length: doc.last_longitute || 4,
+          charset: '123456'
+        });
+    }
+    if(!doc.created)
+        doc.created = new Date();
     next();
 });
 

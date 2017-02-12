@@ -4,5 +4,7 @@ var app = module.parent.exports.app,
   Users = require('../models/user.js');
 
 app.post('/create', function(req, res){
-  res.json(req.body);
+  Users.findOrCreate({ nickname: req.body.nickname}, function(user){
+    res.json(user);
+  });
 });

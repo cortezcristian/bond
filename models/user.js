@@ -8,7 +8,6 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-    name          : String,
     nickname      : String,
     created       : Date
 });
@@ -23,10 +22,15 @@ userSchema.pre("save", function(next) {
 });
 
 // ### Static:
-userSchema.statics.customMethod = function (paramid, cb) {
+userSchema.statics.findOrCreate = function (nickname, cb) {
   var User = this;
-  User.findOne({ _id: paramid}, function(err, user){
+  User.findOne({ nickname : nickname}, function(err, user){
+    if(!user) {
+      user = new User({nickname: nickname });
+      user.save(cb);
+    } else {
       cb(err, user);
+    }
   });
 }
 

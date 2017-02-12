@@ -1,9 +1,12 @@
 extends layout
 
 block content
+  .bar.bar-subheader
+    h2.title=game.status
+
   pre=game
   - for(var i = 1; i <= 6; i++) {
-    button.button.button-block.button-calm=i
+    a.button.button-block.button-calm(href="http://localhost:3000/game/"+code+"/"+i)=i
   - }
 
   script(src="/components/jquery/dist/jquery.js")

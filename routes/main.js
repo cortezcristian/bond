@@ -35,12 +35,11 @@ app.get('/game/:code', function(req, res){
   });
 });
 
-/*
 app.get('/game/:code/:input', function(req, res){
   Games.findOne({ code: req.params.code }, function(err, g){
     g.try(req.params.input, function(err, game){
       res.render('game', { code: game.code, num_players: game.num_players, game: game });
-    });.
+    });
   });
 });
-*/
+

@@ -7,8 +7,8 @@ block content
       .item.item-text-wrap
         .item.item-input-inset
           label.item-input-wrapper
-            input(type="text", value="#{res.locals.domain}/join/"+code)
-          button.button.button-small.button-positive Copy
+            input#foo(type="text", value=domain_url+"/join/"+code)
+          button.button.button-small.button-positive(data-clipboard-target="#foo") Copy
           //- button.button.button-small.button-positive Share
     .card
       .item.item-divider Players in the room 1 of #{num_players}
@@ -18,7 +18,7 @@ block content
             li.item=p.nickname
           - })
     .list.list-inset
-      a.button.button-full.button-positive(href="#{res.locals.domain}/game/"+code) Start Game
+      a.button.button-full.button-positive(href=domain_url+"/game/"+code) Start Game
 
   script(src="/components/jquery/dist/jquery.js")
   script(src="/socket.io/socket.io.js")

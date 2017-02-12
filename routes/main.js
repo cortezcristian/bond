@@ -21,7 +21,14 @@ app.get('/join/:code', function(req, res){
 app.post('/join/:code', function(req, res){
   Users.findOrCreate(req.body.nickname, function(err, user){
     user.joinGame(req.params.code, function(err, game){
+      console.log("user added:", err, game);
       res.redirect('http://localhost:3000/game/'+req.params.code);
     });
+  });
+});
+
+app.get('/game/:code', function(req, res){
+  Games.findOne({ code: req.params.code }, function(err, game){
+    res.render('game', { code: game.code, num_players: game.num_players });
   });
 });

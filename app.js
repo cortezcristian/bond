@@ -1,4 +1,7 @@
-
+// Error
+process.on('uncaughtException', function(err) {
+  console.log("Exception", err.stack);
+});
 
 var express = require('express');
 var path = require('path');
@@ -6,15 +9,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/user');
 
-var app = express();
+var app = exports.app = express();
 
 var env = process.env.NODE_ENV || 'development';
 app.locals.ENV = env;
 app.locals.ENV_DEVELOPMENT = env == 'development';
+
+// Database Connection
+var dbConex = exports.dbConex = mongoose.connect('mongodb://localhost/gamedb');
 
 // view engine setup
 
@@ -32,6 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+require('./routes/main.js');
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

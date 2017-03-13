@@ -7,7 +7,4 @@ block content
         span.input-label Nickname
         input#nickname(type='text', required, placeholder='Username', name="nickname", pattern='^(?!.*\\.\\.)(?!.*\\.$)@?[^\\W][\\w.\\-@]{3,29}$')
       button.button.button-block.button-calm(type="submit") Join Game
-
-  script(src="/socket.io/socket.io.js")
   script.
-    var socket = io.connect('localhost:3000');

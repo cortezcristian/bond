@@ -13,7 +13,7 @@ var userSchema = new Schema({
     created       : Date
 });
 
-var validUser = /^(?!.*\.\.)(?!.*\.$)@?[^\W][\w.\-@]{0,29}$/;
+var validUser = /^(?!.*\.\.)(?!.*\.$)@?[^\W][\w.\-@]{3,29}$/;
 
 // ### Hooks
 // #### Pre-Save

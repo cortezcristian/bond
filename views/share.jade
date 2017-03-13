@@ -24,36 +24,4 @@ block content
       $('#copyCode').select();
       document.execCommand('copy'); // or 'cut'
     });
-    /*
-    var copyBtn = document.querySelector('#copyBtn');
-    copyBtn.addEventListener('click', function () {
-      var urlField = document.querySelector('#copyCode');
-      urlField.select();
-      document.execCommand('copy'); // or 'cut'
-    }, false);
-    */
-  script(src="/socket.io/socket.io.js")
-  script.
-      var socket = io.connect(window.location.href);
-      /*
-      var nickname = prompt();
-      socket.emit("join", nickname);
-      socket.on('reciveUserList', function (data) {
-        console.log(">>>", data);
-      });
-      socket.on('chat', function (data) {
-          console.log(data);
-          $("#messages").append("<div>"+data+"</div>");
-          $('#messages').prop('scrollTop', $('#messages')[0].scrollHeight)
-      });
-      $(document).ready(function(){
-          $('#send').keydown(function(e){
-            var code = e.keyCode || e.which;
-            if(code==13&&$(this).val()!==""){
-                console.log($(this).val());
-                socket.emit("chatsend", $(this).val());
-                $(this).val("");
-            }
-          });
-      });
-      */
+

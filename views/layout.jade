@@ -13,5 +13,13 @@ html(lang='en')
         script(src='http://localhost:35729/livereload.js')
   body
     .bar.bar-header.bar-light
-      h1.title Bond
+      a.h1.title(href='/') Bond
     block content
+    script(src="/socket.io/socket.io.js")
+    script.
+      var socket = io.connect(window.location.host);
+      console.log(window.location.host);
+      socket.emit('onServer', { message: 'welcome to the chat' });
+      socket.on('joinPlayer', function (data) {
+        console.log(data);
+      });

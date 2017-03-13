@@ -43,4 +43,3 @@ app.get('/game/:code/:input', function(req, res){
     });
   });
 });
-

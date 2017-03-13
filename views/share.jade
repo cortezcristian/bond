@@ -25,4 +25,8 @@ block content
       document.execCommand('copy'); // or 'cut'
     });
   script.
-
+    var socket = io.connect(window.location.host);
+    socket.emit('onServer', { message: window.location.href });
+    socket.on('joinPlayer', function (data) {
+      console.log(data);
+    });

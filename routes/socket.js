@@ -17,11 +17,14 @@ module.exports = function(io) {
           if(g.num_players === g.players.length){
             io.to('room-'+g.code).emit('gotoGame',{game:g});
             // esto no me gusta mucho, otro dia lo pienso mejor
-            for(var i=0, x = g.last_longitute ;i<x;i++){
+            for(var i=0, x = g.last_longitute ; i<x;i++){
               setTimeout(function(i,room,colors) {
                 io.to(room).emit('background',{colorNum:colors[i]});
-              }, 3000*(i+1),i, 'room-'+data.gameCode,g.last_random);
+              }, 2000*(i+1),i, 'room-'+data.gameCode,g.last_random);
             }
+            setTimeout(function(room){
+              io.to(room).emit('showBtn',{ });
+            }, 2000 * (g.last_longitute + 2),'room-'+data.gameCode);
           }else{
             Games.populate(g, { path: 'players', model: 'User' }, function(err, game){
               io.to('room-'+data.gameCode).emit('joinPlayer',{ players:game.players });

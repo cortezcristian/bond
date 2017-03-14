@@ -1,15 +1,16 @@
 extends layout
 
 block content
-  form(method="post",action="/create")
-    .list.list-inset
-      label.item.item-input.item-stacked-label
-        span.input-label Nickname
-        input#nickname(type='text', required, placeholder='Username', name="nickname", pattern='^(?!.*\\.\\.)(?!.*\\.$)@?[^\\W][\\w.\\-@]{3,29}$')
-      label.item.item-select
-        span.input-label Players
-        select(name="num_players")
-          - for(var i = 2; i <= 8; i++) {
-            option(value=i)=i
-          - }
-      button.button.button-block.button-calm(type="submit") Create Game
+  .content
+    form(method="post",action="/create")
+      .list.list-inset
+        label.item.item-input.item-stacked-label
+          span.input-label Nickname
+          input#nickname(type='text', required, placeholder='Username', name="nickname", pattern='^(?!.*\\.\\.)(?!.*\\.$)@?[^\\W][\\w.\\-@]{3,29}$')
+        label.item.item-select
+          span.input-label Players
+          select(name="num_players")
+            - for(var i = 2; i <= 8; i++) {
+              option(value=i)=i
+            - }
+        button.button.button-block.button-calm(type="submit") Create Game

@@ -15,6 +15,18 @@ block content
         ul#players.list
   #game.content(style="display: none;")
     a.button.button-block.button-calm( href=domain_url+"/game/"+code+"/#{player.id}")=player.nickname
+    #hexagon(style="display: none;")
+      .content-hex
+        .top
+          .hexagon
+          .hexagon
+        .bottom
+          .hexagon
+          .hexagon
+          .hexagon
+        .top
+          .hexagon
+          .hexagon
     .card
       pre#gameInfo
 
@@ -45,3 +57,8 @@ block content
     socket.on('background',function(data){
       $('body').css("background-color",colors[data.colorNum]);
     });
+    socket.on('showBtn',function(data){
+      $('body').css("background-color","#FFF");
+      $('#hexagon').show();
+    });
+

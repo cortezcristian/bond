@@ -28,7 +28,7 @@ block content
     socket.emit('joinPlayer',{gameCode: "#{code}" , playerID : '#{player.id}'});
     socket.on('joinPlayer-#{code}', function (data) {
       console.log(data);
-      $('#players').remove('.item');
+      $('#players').empty();
       for(var i=0; i<data.players.length;i++){
         $('#players').append('<li class="item">'+data.players[i].nickname+'</li>')
       }

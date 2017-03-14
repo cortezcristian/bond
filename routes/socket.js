@@ -15,7 +15,7 @@ module.exports = function(io) {
         console.log('rooms:',socket.rooms);
         Games.findOne({ code: data.gameCode }, function(err, g){
           if(g.num_players === g.players.length){
-            io.to('room-'+g.code).emit('gotoGame',data);
+            io.to('room-'+g.code).emit('gotoGame',{game:g});
           }else{
             Games.populate(g, { path: 'players', model: 'User' }, function(err, game){
               io.to('room-'+data.gameCode).emit('joinPlayer',{ players:game.players });

@@ -8,7 +8,7 @@ app.post('/create', function(req, res){
   Users.findOrCreate(req.body.nickname, function(err, user){
     user.createGame(req.body.num_players, function(err, g){
       Games.populate(g, { path: 'players', model: 'User' }, function(err, game){
-        res.render('share', { code: game.code, num_players: game.num_players, players: game.players });
+        res.render('share', {player: user, code: game.code, num_players: game.num_players, players: game.players });
       });
     });
   });
@@ -26,9 +26,9 @@ app.post('/join/:code', function(req, res){
       console.log("user added:", err, game);
       if(game.num_players === game.players.length ){
         res.redirect(res.locals.domain_url+'/game/'+req.params.code);
-      }else{
+      } else {
         Games.populate(game, { path: 'players', model: 'User' }, function(err, game){
-          res.render('share', { code: game.code, num_players: game.num_players, players: game.players });
+          res.render('share', { player: user, code: game.code, num_players: game.num_players, players: game.players });
         });
       }
     });

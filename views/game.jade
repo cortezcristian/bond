@@ -13,4 +13,6 @@ block content
 
   script(src="/socket.io/socket.io.js")
   script.
-    var socket = io.connect('localhost:3000');
+    var socket = io.connect(window.location.host);
+    //antes de esto unir al ultimo jugador ala otra sala
+    socket.emit('gotoGame',{gameCode: "#{code}"});

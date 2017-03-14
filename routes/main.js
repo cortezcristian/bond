@@ -24,17 +24,14 @@ app.post('/join/:code', function(req, res){
   Users.findOrCreate(req.body.nickname, function(err, user){
     user.joinGame(req.params.code, function(err, game){
       console.log("user added:", err, game);
-      if(game.num_players === game.players.length ){
-        res.redirect(res.locals.domain_url+'/game/'+req.params.code);
-      } else {
         Games.populate(game, { path: 'players', model: 'User' }, function(err, game){
           res.render('share', { player: user, code: game.code, num_players: game.num_players, players: game.players });
         });
-      }
     });
   });
 });
 
+// redirijo los jugadores aca y valido ID y game Code
 app.get('/game/:code', function(req, res){
   Games.findOne({ code: req.params.code }, function(err, game){
     res.render('game', { code: game.code, num_players: game.num_players, game: game });

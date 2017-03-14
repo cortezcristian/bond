@@ -14,9 +14,13 @@ module.exports = function(io) {
       self.join('room-'+data.gameCode,function(){
         console.log('rooms:',socket.rooms);
         Games.findOne({ code: data.gameCode }, function(err, g){
-          Games.populate(g, { path: 'players', model: 'User' }, function(err, game){
-            io.to('room-'+data.gameCode).emit('joinPlayer',{ players:game.players });
-          });
+          if(g.num_players === g.players.length){
+            io.to('room-'+g.code).emit('gotoGame',data);
+          }else{
+            Games.populate(g, { path: 'players', model: 'User' }, function(err, game){
+              io.to('room-'+data.gameCode).emit('joinPlayer',{ players:game.players });
+            });
+          }
         });
       });
     });

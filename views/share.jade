@@ -13,7 +13,7 @@ block content
       .item.item-divider Players in the room 1 of #{num_players}
       .item.item-text-wrap
         ul#players.list
-    .list.list-inset
+    //.list.list-inset
       a.button.button-full.button-positive(href=domain_url+"/game/"+code) Start Game
 
   script.
@@ -31,4 +31,8 @@ block content
       for(var i=0; i<data.players.length;i++){
         $('#players').append('<li class="item">'+data.players[i].nickname+'</li>')
       }
+    });
+    socket.on('gotoGame',function(data){
+      console.log('redirect to',window.location.host+"/game/"+data.gameCode);
+      window.location = "/game/"+data.gameCode;
     });

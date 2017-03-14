@@ -13,7 +13,7 @@ block content
       .item.item-divider Players in the room 1 of #{num_players}
       .item.item-text-wrap
         ul#players.list
-  #game.connect(style="display: none;")
+  #game.content(style="display: none;")
     a.button.button-block.button-calm( href=domain_url+"/game/"+code+"/#{player.id}")=player.nickname
     .card
       pre#gameInfo
@@ -40,4 +40,8 @@ block content
       $('#gameInfo').text(JSON.stringify(data.game,1,' '));
       $('#joinGame').hide();
       $('#game').show();
+    });
+
+    socket.on('background',function(data){
+      $('body').css("background-color",colors[data.colorNum]);
     });

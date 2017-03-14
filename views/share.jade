@@ -24,9 +24,8 @@ block content
   script.
     var socket = io.connect(window.location.host);
     //socket.emit('onServer', { url: window.location.href });
-    // If I use ajax with jquery it looks better, every 500ms update
     socket.emit('joinPlayer',{gameCode: "#{code}" , playerID : '#{player.id}'});
-    socket.on('joinPlayer-#{code}', function (data) {
+    socket.on('joinPlayer', function (data) {
       console.log(data);
       $('#players').empty();
       for(var i=0; i<data.players.length;i++){

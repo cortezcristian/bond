@@ -14,11 +14,15 @@ var gameSchema = new Schema({
     num_players : Number,
     players     : [], // 2-5 Players
     creator     : { type  : Schema.Types.ObjectId, ref : 'User' },
+    start       : { type  : Date },
+    timeout     : {type   : Number, default: 60000},
     last_random : { type  : String, default : '' },
-    last_entered : { type  : String, default : '' },
-    last_longitute : { type  : Number, default : 4 },
+    last_entered    : { type  : String, default : '' },
+    last_longitute  : { type  : Number, default : 4 },
     status      : { type  : String, default : 'In Progress' }, // Win, Lost
-    rounds : [], // rounds history
+    rounds      : [], // rounds history
+
+
 	  created     : Date
 });
 
@@ -30,10 +34,11 @@ gameSchema.pre("save", function(next) {
         doc.code = randomstring.generate(7);
     }
     if(!doc.last_random || doc.last_random === ""){
-        doc.last_random = randomstring.generate({
-          length: doc.last_longitute || 4,
-          charset: '123456'
-        });
+  doc.last_random = randomstring.generate({
+    length: doc.last_longitute || 4,
+      charset: '1234567'
+    });
+  doc.timeout = (40000+ doc.last_longitute*3000 ) / (doc.rounds.lenght>0||1);
     }
     if(!doc.created)
         doc.created = new Date();
@@ -46,10 +51,15 @@ gameSchema.method("try", function(number, cb) {
     game.last_entered += ""+number;
     var regex = new RegExp("^"+game.last_entered);
     if(game.last_random.match(regex)){
-      if(game.last_entered.length === game.last_random.length){
+        var end = new Date();
+        var duration =  end.getTime() - game.start.getTime() ;
+      if( duration <= game.timeout  && game.last_entered.length === game.last_random.length){
         game.status = "You Win";
-        // TODO: In case of win
-        // create a new round and reset the game
+        game.rounds.push(game.last_random);
+        game.last_longitute++;
+        game.last_random = "";
+        game.last_entered= "";
+        game.status = 'In Progress';
       }
     } else {
       game.status = "You Lost";

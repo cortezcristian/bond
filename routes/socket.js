@@ -21,18 +21,7 @@ module.exports = function(io) {
           if(g.num_players === g.players.length){
             var roomCode = 'room-'+g.code;
             io.to(roomCode).emit('gotoGame',{game:g});
-            var listSocket = createSocketPlayerList(roomCode);
-            // esto no me gusta mucho, otro dia lo pienso mejor
-            for(var i=0, x = g.last_longitute ; i<x;i++){
-              setTimeout(function(i,room,colors) {
-                console.log(colors[i]);
-                io.to(room).emit('background',{colorNum:colors[i]});
-              }, 2000*(i+1),i, roomCode,g.last_random);
-            }
-            setTimeout(function(room,socket){
-              io.to(room).emit('background',{colorNum : undefined });
-              startGame(listSocket,roomCode);
-            }, 1500 * (g.last_longitute + 2),roomCode,socket);
+            startGame(g,roomCode);
           } else {
             Games.populate(g, { path: 'players', model: 'User' }, function(err, game){
               io.to('room-'+data.gameCode).emit('joinPlayer',{ players:game.players });
@@ -55,7 +44,7 @@ module.exports = function(io) {
       io.to(roomCode).emit('youTrun',{ value: false });
       io.to(scktID[getRandomInt(room.length)]).emit('youTrun',{value:true });
     }
-    function startGame(socketID,roomCode){
+    function playGame(socketID,roomCode){
       var room = socket.adapter.rooms[roomCode];
       youTrun(socketID,room,roomCode);
       socket.on('inputGame',function(data){
@@ -65,14 +54,28 @@ module.exports = function(io) {
               youTrun(socketID,room,roomCode);
             } else {
               io.to(roomCode).emit('winOrLost',{value:!/You Lost/.test(game.status) });
-              // New rounds
             }
             io.to(roomCode).emit('gotoGame',{game:game});
           });
         });
       });
     }
-    
+    function startGame(game,roomCode){
+      var listSocket = createSocketPlayerList(roomCode);
+      game.start = new Date();
+      game.save();
+      // esto no me gusta mucho, otro dia lo pienso mejor
+      for(var i=0, x = game.last_longitute ; i<x;i++){
+        setTimeout(function(i,room,colors) {
+          console.log(colors[i]);
+          io.to(room).emit('background',{colorNum:colors[i]});
+        }, 2000*(i+1),i, roomCode,game.last_random);
+      }
+      setTimeout(function(room){
+        io.to(room).emit('background',{colorNum : undefined });
+        playGame(listSocket,roomCode);
+      }, 1500 * (game.last_longitute + 2),roomCode);
+    }
 
 
   });

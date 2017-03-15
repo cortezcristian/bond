@@ -28,7 +28,7 @@ app.use(function(req, res, next){
   res.locals.domain = config.app.domain || '127.0.0.1:3000';
   res.locals.domain_url = config.app.domain_url || 'http://localhost:3000';
   // remplazar esto por jquery y armar los botones
-  res.locals.colors = ['#000','#54ff54','#ffff54','#5454ff','#ff54ff','#54ffff','#ff5454','#686868'];
+  res.locals.colors = ['#000','#ffff54','#54ff54','#5454ff','#ff54ff','#54ffff','#ff5454','#686868'];
   next();
 });
 

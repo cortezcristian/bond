@@ -93,5 +93,5 @@ block content
 
     socket.on('winOrLost',function(data){
       youTrun = data.value;
-      barClassTilte( (data.value && 'bar-positive') || 'bar-assertive' , (data.value && 'Winner') || 'Loser' );
+      barClassTilte( (data.value && 'bar-positive') || 'bar-assertive' , (data.value && 'Winner, You passed level '+data.level) || 'Loser' );
     });

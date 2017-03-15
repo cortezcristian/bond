@@ -59,7 +59,6 @@ gameSchema.method("try", function(number, cb) {
         game.last_longitute++;
         game.last_random = "";
         game.last_entered= "";
-        game.status = 'In Progress';
       }
     } else {
       game.status = "You Lost";

@@ -53,7 +53,13 @@ module.exports = function(io) {
             if( /In Progress/.test(game.status)){
               youTrun(socketID,room,roomCode);
             } else {
-              io.to(roomCode).emit('winOrLost',{value:!/You Lost/.test(game.status) });
+              var winner = !/You Lost/.test(game.status);
+              io.to(roomCode).emit('winOrLost',{value:winner, level: game.rounds.length+1});
+              if(winner){
+                 setTimeout(function(game,roomCode){
+                  startGame(game,roomCode);
+                },2500,game,roomCode);
+              }
             }
             io.to(roomCode).emit('gotoGame',{game:game});
           });
@@ -62,6 +68,7 @@ module.exports = function(io) {
     }
     function startGame(game,roomCode){
       var listSocket = createSocketPlayerList(roomCode);
+      game.status = 'In Progress';
       game.start = new Date();
       game.save();
       // esto no me gusta mucho, otro dia lo pienso mejor
@@ -76,7 +83,6 @@ module.exports = function(io) {
         playGame(listSocket,roomCode);
       }, 1500 * (game.last_longitute + 2),roomCode);
     }
-
 
   });
 };// module

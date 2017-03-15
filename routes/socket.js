@@ -40,20 +40,20 @@ module.exports = function(io) {
       });
     });
 
-    var scktID=[];
-    function youTrun(sckt,room,roomCode){
+    function youTrun(scktID,room,roomCode){
+      console.log(scktID[0] );
       console.log(scktID[1] );
       io.to(roomCode).emit('youTrun',{ value: false });
-      //sckt.broadcast.to(scktID[getRandomInt(room.length)]).emit('youTrun',{value:true });
-      sckt.broadcast.to(scktID[0]).emit('youTrun',{value:true });
+      io.to(scktID[getRandomInt(room.length)]).emit('youTrun',{value:true });
     }
     function getSocketID(sckt,roomCode){
+      var scktID=[];
       // console.log(room.sockets,room.length);
       var room = socket.adapter.rooms[roomCode];
       for( key in room.sockets){
         scktID.push(key);
       }
-      youTrun(sckt,room,roomCode);
+      youTrun(scktID,room,roomCode);
     }
 
   });

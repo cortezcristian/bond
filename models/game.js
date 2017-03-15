@@ -18,11 +18,9 @@ var gameSchema = new Schema({
   timeout     : {type   : Number, default: 60000},
   last_random : { type  : String, default : '' },
   last_entered    : { type  : String, default : '' },
-  last_longitute  : { type  : Number, default : 4 },
+  last_longitute  : { type  : Number, default : 3 },
   status      : { type  : String, default : 'In Progress' }, // Win, Lost
   rounds      : [], // rounds history
-
-
   created     : Date
 });
 
@@ -35,7 +33,7 @@ gameSchema.pre("save", function(next) {
   }
   if(!doc.last_random || doc.last_random === ""){
     doc.last_random = randomstring.generate({
-      length: doc.last_longitute || 4,
+      length: doc.last_longitute || 3,
       charset: '1234567'
     });
     doc.timeout = (40000+ doc.last_longitute*3000 ) / (doc.rounds.lenght>0||1);
@@ -53,6 +51,7 @@ gameSchema.method("try", function(number, cb) {
   if(game.last_random.match(regex)){
     var end = new Date();
     var duration =  end.getTime() - game.start.getTime() ;
+    console.log(duration,game.timeout);
     if( duration <= game.timeout  && game.last_entered.length === game.last_random.length){
       game.status = "You Win";
       game.rounds.push(game.last_random);

@@ -8,7 +8,7 @@ block content
   -}
   #joinGame.content
     .card
-      .item.item-divider Share URL or Code
+      .item.item-divider Share URL. Game code is #{code}
       .item.item-text-wrap
         .item.item-input-inset
           label.item-input-wrapper
@@ -43,15 +43,19 @@ block content
       document.execCommand('copy'); // or 'cut'
     });
 
+  script(src="/socket.io/socket.io.js")
   script.
     var socket = io.connect(window.location.host);
                 // black  // green  // yellow // blue   //pulpure // aqua   // red    // gray
-    var colors = ['#000000','#ffc900','#ffc900','#387ef5','#886aea','#11c1f3','#ef473a','#a2a2a2'];
+    var colors = ['#000000','#ffc900','#ffc900','#387ef5','#886aea','#11c1f3','#ef473a','#7b7b7b'];
     var youTrun = false;
 
     function inputGame(value){
+      // esta linea esta porque socket solo emite de una pc
+      socket.emit('inputGame',{gameCode: '#{code}',input:value,playerID : '#{player.id}'});
+      // 
       if(youTrun){
-        socket.emit('inputGame',{gameCode: '#{code}',input:value,playerID : '#{player.id}'});
+        //socket.emit('inputGame',{gameCode: '#{code}',input:value,playerID : '#{player.id}'});
       }else{
         barClassTilte('bar-energized',"This isn't your trun.");
       }

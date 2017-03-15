@@ -1,5 +1,5 @@
-var 
-  Games = require('../models/game.js'),
+var
+Games = require('../models/game.js'),
   Users = require('../models/user.js');
 module.exports = function(io) {
   function getRandomInt(max) {
@@ -56,7 +56,7 @@ module.exports = function(io) {
               var winner = !/You Lost/.test(game.status);
               io.to(roomCode).emit('winOrLost',{value:winner, level: game.rounds.length+1});
               if(winner){
-                 setTimeout(function(game,roomCode){
+                setTimeout(function(game,roomCode){
                   startGame(game,roomCode);
                 },2500,game,roomCode);
               }

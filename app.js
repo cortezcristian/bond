@@ -27,8 +27,8 @@ app.use(function(req, res, next){
   res.locals.envflag = config.envflag || process.env.NODE_ENV;
   res.locals.domain = config.app.domain || '127.0.0.1:3000';
   res.locals.domain_url = config.app.domain_url || 'http://localhost:3000';
-                     // red    // green  // yellow // blue   // pulpure // aqua  // gray   //  black
-  res.locals.colors = ['#ff5454','#54ff54','#ffff54','#5454ff','#ff54ff','#54ffff','#686868','#000000'];
+  // remplazar esto por jquery y armar los botones
+  res.locals.colors = ['#000','#54ff54','#ffff54','#5454ff','#ff54ff','#54ffff','#ff5454','#686868'];
   next();
 });
 

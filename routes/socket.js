@@ -32,7 +32,7 @@ module.exports = function(io) {
             setTimeout(function(room,socket){
               io.to(room).emit('background',{colorNum : undefined });
               startGame(listSocket,roomCode);
-            }, 2000 * (g.last_longitute + 2),roomCode,socket);
+            }, 1500 * (g.last_longitute + 2),roomCode,socket);
           } else {
             Games.populate(g, { path: 'players', model: 'User' }, function(err, game){
               io.to('room-'+data.gameCode).emit('joinPlayer',{ players:game.players });
@@ -58,8 +58,22 @@ module.exports = function(io) {
     function startGame(socketID,roomCode){
       var room = socket.adapter.rooms[roomCode];
       youTrun(socketID,room,roomCode);
-
+      socket.on('inputGame',function(data){
+        Games.findOne({ code: data.gameCode }, function(err, g){
+          g.try( data.input, function(err, game){
+            if( /In Progress/.test(game.status)){
+              youTrun(socketID,room,roomCode);
+            } else {
+              io.to(roomCode).emit('winOrLost',{value:!/You Lost/.test(game.status) });
+              // unos seg y otra ronda
+            }
+            io.to(roomCode).emit('gotoGame',{game:game});
+          });
+        });
+      });
     }
+    
+
 
   });
 };// module

@@ -4,13 +4,14 @@ block content
   .content
     form(method="post",action="/create")
       .list.list-inset
-        label.item.item-input.item-stacked-label
-          span.input-label Nickname
-          input#nickname(type='text', required, placeholder='Username', name="nickname", pattern='^(?!.*\\.\\.)(?!.*\\.$)@?[^\\W][\\w.\\-@]{3,29}$')
-        label.item.item-select
+        label.item.item-input.item-stacked-label(style="padding-left: 8px;padding-right: 8px;")
+          span.input-label( style="padding-left: 8px;") Nickname
+          input#nickname(type='text', required, placeholder='Username', name="nickname", pattern='^(?!.*\\.\\.)(?!.*\\.$)@?[^\\W][\\w.\\-@]{3,29}$' style="padding-right: 20px;padding-left: 20px;")
+        label.item.item-select(style="padding-bottom: 10px;padding-top: 10px;")
           span.input-label Players
           select(name="num_players")
             - for(var i = 2; i <= 8; i++) {
               option(value=i)=i
             - }
+      .padding
         button.button.button-block.button-calm(type="submit") Create Game

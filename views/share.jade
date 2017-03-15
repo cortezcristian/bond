@@ -18,18 +18,18 @@ block content
     .clearfix
       .content-hex
         .top
-          a.hexagon(href=domain_url+"/game/"+code+"/1" style='background: #{colors[1]}')
-          a.hexagon(href=domain_url+"/game/"+code+"/2" style='background: #{colors[2]}')
+          a.hexagon( onClick="inputGame(1)" style='background: #{colors[1]}')
+          a.hexagon( onClick="inputGame(2)" style='background: #{colors[2]}')
         .bottom
-          a.hexagon(href=domain_url+"/game/"+code+"/3" style='background: #{colors[3]}')
-          a.hexagon(href=domain_url+"/game/"+code+"/4" style='background: #{colors[4]}')
-          a.hexagon(href=domain_url+"/game/"+code+"/5" style='background: #{colors[5]}')
+          a.hexagon( onClick="inputGame(3)" style='background: #{colors[3]}')
+          a.hexagon( onClick="inputGame(4)" style='background: #{colors[4]}')
+          a.hexagon( onClick="inputGame(5)" style='background: #{colors[5]}')
         .top
-          a.hexagon(href=domain_url+"/game/"+code+"/6" style='background: #{colors[6]}')
-          a.hexagon(href=domain_url+"/game/"+code+"/7" style='background: #{colors[7]}')
+          a.hexagon( onClick="inputGame(6)" style='background: #{colors[6]}')
+          a.hexagon( onClick="inputGame(7)" style='background: #{colors[7]}')
     .card
       pre#gameInfo
-  //- balanced
+
   #bar.bar.bar-footer.bar-dark(style="display: none;")
     .title Recuerda los colores
 
@@ -40,9 +40,12 @@ block content
     });
   script.
     var socket = io.connect(window.location.host);
-                // red    // green  // yellow // blue   // pulpure // aqua  // gray   //  black
-    var colors = ['#ff5454','#54ff54','#ffff54','#5454ff','#ff54ff','#54ffff','#686868','#000000'];
-
+                // black  // green  // yellow // blue   // pulpure // aqua    // red    // gray
+    var colors = ['#000000','#28a54c','#ffc900','#ffc900','#6b46e5' ,'#0a9dc7' ,'#e42112','#686868'];
+    
+    function inputGame(value){
+      socket.emit('inputGame',{gameCode: '#{code}',input:value,playerID : '#{player.id}'});
+    }
     socket.emit('joinPlayer',{gameCode: "#{code}" , playerID : '#{player.id}'});
     socket.on('joinPlayer', function (data) {
       $('#players').empty();
@@ -51,7 +54,6 @@ block content
       }
     });
     socket.on('gotoGame',function(data){
-      // window.location = "/game/"+data.game.code;
       $('#gameInfo').text(JSON.stringify(data.game,1,' '));
       $('#joinGame').hide();
       $('#game').show();
@@ -59,11 +61,17 @@ block content
     });
 
     socket.on('background',function(data){
-      $('body').css("background-color", colors[data.colorNum] || '#FFF');
+      $('body').css("background-color", colors[data.colorNum] || 'rgb(231, 231, 231)');
     });
 
     socket.on('youTrun',function(data){
-      $('#bar').removeClass( (data.value && 'bar-dark') || 'bar-balanced')
+      $('#bar').removeClass('bar-dark bar-balanced')
                .addClass( (data.value && 'bar-balanced') || 'bar-dark');
       $('#bar .title').text( (data.value && 'Tu Turno') || 'Otro jugador' );
+    });
+
+    socket.on('winOrLost',function(data){
+      $('#bar').removeClass('bar-balanced bar-dark')
+               .addClass( (data.value && 'bar-positive') || 'bar-assertive');
+      $('#bar .title').text( (data.value && 'Winner') || 'Loser' );
     });

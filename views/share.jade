@@ -14,21 +14,24 @@ block content
       .item.item-text-wrap
         ul#players.list
   #game.content(style="display: none;")
-    a.button.button-block.button-calm( href=domain_url+"/game/"+code+"/#{player.id}")=player.nickname
-    #hexagon(style="display: none;")
+    //- a( href=domain_url+"/game/"+code+"/#{player.id}")=player.nickname
+    .clearfix
       .content-hex
         .top
-          .hexagon
-          .hexagon
+          a.hexagon(href=domain_url+"/game/"+code+"/1" style='background: #{colors[1]}')
+          a.hexagon(href=domain_url+"/game/"+code+"/2" style='background: #{colors[2]}')
         .bottom
-          .hexagon
-          .hexagon
-          .hexagon
+          a.hexagon(href=domain_url+"/game/"+code+"/3" style='background: #{colors[3]}')
+          a.hexagon(href=domain_url+"/game/"+code+"/4" style='background: #{colors[4]}')
+          a.hexagon(href=domain_url+"/game/"+code+"/5" style='background: #{colors[5]}')
         .top
-          .hexagon
-          .hexagon
+          a.hexagon(href=domain_url+"/game/"+code+"/6" style='background: #{colors[6]}')
+          a.hexagon(href=domain_url+"/game/"+code+"/7" style='background: #{colors[7]}')
     .card
       pre#gameInfo
+  //- balanced
+  #bar.bar.bar-footer.bar-dark(style="display: none;")
+    .title Recuerda los colores
 
   script.
     $( "#copyBtn" ).on( "click", function() {
@@ -52,6 +55,7 @@ block content
       $('#gameInfo').text(JSON.stringify(data.game,1,' '));
       $('#joinGame').hide();
       $('#game').show();
+      $('#bar').show();
     });
 
     socket.on('background',function(data){
@@ -59,6 +63,11 @@ block content
     });
     socket.on('showBtn',function(data){
       $('body').css("background-color","#FFF");
-      $('#hexagon').show();
     });
 
+    socket.on('youTrun',function(data){
+      console.log(data.value);
+      $('#bar').removeClass( (data.value && 'bar-dark') || 'bar-balanced')
+               .addClass( (data.value && 'bar-balanced') || 'bar-dark');
+      $('#bar .title').text( (data.value && 'Tu Turno') || 'Otro jugador' );
+    });

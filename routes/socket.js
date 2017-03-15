@@ -19,18 +19,20 @@ module.exports = function(io) {
         console.log('room: ',socket.adapter.rooms['room-'+data.gameCode]);
         Games.findOne({ code: data.gameCode }, function(err, g){
           if(g.num_players === g.players.length){
-            io.to('room-'+g.code).emit('gotoGame',{game:g});
+            var roomCode = 'room-'+g.code;
+            io.to(roomCode).emit('gotoGame',{game:g});
+            var listSocket = createSocketPlayerList(roomCode);
             // esto no me gusta mucho, otro dia lo pienso mejor
             for(var i=0, x = g.last_longitute ; i<x;i++){
               setTimeout(function(i,room,colors) {
                 console.log(colors[i]);
                 io.to(room).emit('background',{colorNum:colors[i]});
-              }, 2000*(i+1),i, 'room-'+data.gameCode,g.last_random);
+              }, 2000*(i+1),i, roomCode,g.last_random);
             }
             setTimeout(function(room,socket){
               io.to(room).emit('showBtn',{ });
-              getSocketID(socket,'room-'+data.gameCode);
-            }, 2000 * (g.last_longitute + 2),'room-'+data.gameCode,socket);
+              startGame(listSocket,roomCode);
+            }, 2000 * (g.last_longitute + 2),roomCode,socket);
           } else {
             Games.populate(g, { path: 'players', model: 'User' }, function(err, game){
               io.to('room-'+data.gameCode).emit('joinPlayer',{ players:game.players });
@@ -40,20 +42,23 @@ module.exports = function(io) {
       });
     });
 
-    function youTrun(scktID,room,roomCode){
-      console.log(scktID[0] );
-      console.log(scktID[1] );
-      io.to(roomCode).emit('youTrun',{ value: false });
-      io.to(scktID[getRandomInt(room.length)]).emit('youTrun',{value:true });
-    }
-    function getSocketID(sckt,roomCode){
+    function createSocketPlayerList(roomCode){
       var scktID=[];
       // console.log(room.sockets,room.length);
       var room = socket.adapter.rooms[roomCode];
       for( key in room.sockets){
         scktID.push(key);
       }
-      youTrun(scktID,room,roomCode);
+      return scktID;
+    }
+    function youTrun(scktID,room,roomCode){
+      io.to(roomCode).emit('youTrun',{ value: false });
+      io.to(scktID[getRandomInt(room.length)]).emit('youTrun',{value:true });
+    }
+    function startGame(socketID,roomCode){
+      var room = socket.adapter.rooms[roomCode];
+      youTrun(socketID,room,roomCode);
+
     }
 
   });

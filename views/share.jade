@@ -1,6 +1,11 @@
 extends layout
-
 block content
+  -for(var i=1; i<=7; i++){
+    style.
+      #hex#{i} { background: #{colors[i]}; }
+      #hex#{i}:after{ border-color: #{colors[i]} transparent;}
+      #hex#{i}:before{ border-color: #{colors[i]} transparent;}
+  -}
   #joinGame.content
     .card
       .item.item-divider Share URL or Code
@@ -8,25 +13,24 @@ block content
         .item.item-input-inset
           label.item-input-wrapper
             input#copyCode(style="width: 100%;padding-left: 0px;padding-top: 1px;" type="text", value=domain_url+"/join/"+code)
-          button#copyBtn.button.button-small.button-positive Copy
+          button#copyBtn.button.button-small.button-calm Copy
     .card
       .item.item-divider Players in the room 1 of #{num_players}
       .item.item-text-wrap
         ul#players.list
   #game.content(style="display: none;")
-    //- a( href=domain_url+"/game/"+code+"/#{player.id}")=player.nickname
     .clearfix
       .content-hex
         .top
-          a.hexagon( onClick="inputGame(1)" style='background: #{colors[1]}')
-          a.hexagon( onClick="inputGame(2)" style='background: #{colors[2]}')
+          a#hex1.hexagon(onClick="inputGame(1)")
+          a#hex2.hexagon(onClick="inputGame(2)")
         .bottom
-          a.hexagon( onClick="inputGame(3)" style='background: #{colors[3]}')
-          a.hexagon( onClick="inputGame(4)" style='background: #{colors[4]}')
-          a.hexagon( onClick="inputGame(5)" style='background: #{colors[5]}')
+          a#hex3.hexagon(onClick="inputGame(3)")
+          a#hex4.hexagon(onClick="inputGame(4)")
+          a#hex5.hexagon(onClick="inputGame(5)")
         .top
-          a.hexagon( onClick="inputGame(6)" style='background: #{colors[6]}')
-          a.hexagon( onClick="inputGame(7)" style='background: #{colors[7]}')
+          a#hex6.hexagon(onClick="inputGame(6)")
+          a#hex7.hexagon(onClick="inputGame(7)")
     .card
       pre#gameInfo
 
@@ -38,6 +42,7 @@ block content
       $('#copyCode').select();
       document.execCommand('copy'); // or 'cut'
     });
+
   script.
     var socket = io.connect(window.location.host);
                 // black  // green  // yellow // blue   // pulpure // aqua    // red    // gray

@@ -35,7 +35,7 @@ block content
       pre#gameInfo
 
   #bar.bar.bar-footer.bar-dark(style="display: none;")
-    .title Recuerda los colores
+    .title Can you remember the colors?
 
   script.
     $( "#copyBtn" ).on( "click", function() {
@@ -47,10 +47,22 @@ block content
     var socket = io.connect(window.location.host);
                 // black  // green  // yellow // blue   // pulpure // aqua    // red    // gray
     var colors = ['#000000','#28a54c','#ffc900','#ffc900','#6b46e5' ,'#0a9dc7' ,'#e42112','#686868'];
-    
+    var youTrun = false;
+
     function inputGame(value){
-      socket.emit('inputGame',{gameCode: '#{code}',input:value,playerID : '#{player.id}'});
+      if(youTrun){
+        socket.emit('inputGame',{gameCode: '#{code}',input:value,playerID : '#{player.id}'});
+      }else{
+        barClassTilte('bar-energized',"This isn't your trun.");
+      }
     }
+    function barClassTilte(addClass,addTilte){
+      var barHtml = $('#bar');
+        barHtml.removeClass('bar-dark bar-balanced bar-energized').addClass(addClass);
+        addTilte && $('#bar .title').text(addTilte);
+      return barHtml
+    }
+
     socket.emit('joinPlayer',{gameCode: "#{code}" , playerID : '#{player.id}'});
     socket.on('joinPlayer', function (data) {
       $('#players').empty();
@@ -66,17 +78,19 @@ block content
     });
 
     socket.on('background',function(data){
-      $('body').css("background-color", colors[data.colorNum] || 'rgb(231, 231, 231)');
+      setTimeout(function() {
+        $('body').css("background-color", colors[data.colorNum] || 'rgb(231, 231, 231)');
+      },250);
+      $('body').css("background-color", 'rgb(231, 231, 231)');
+      barClassTilte('bar-dark','Can you remember the colors?');
     });
 
     socket.on('youTrun',function(data){
-      $('#bar').removeClass('bar-dark bar-balanced')
-               .addClass( (data.value && 'bar-balanced') || 'bar-dark');
-      $('#bar .title').text( (data.value && 'Tu Turno') || 'Otro jugador' );
+      youTrun = data.value;
+      barClassTilte( (youTrun && 'bar-balanced') || 'bar-dark', (youTrun && 'Tu Turno') || 'Otro jugador' );
     });
 
     socket.on('winOrLost',function(data){
-      $('#bar').removeClass('bar-balanced bar-dark')
-               .addClass( (data.value && 'bar-positive') || 'bar-assertive');
-      $('#bar .title').text( (data.value && 'Winner') || 'Loser' );
+      youTrun = !data.value;
+      barClassTilte( (data.value && 'bar-positive') || 'bar-assertive' , (data.value && 'Winner') || 'Loser' );
     });

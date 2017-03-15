@@ -65,7 +65,7 @@ module.exports = function(io) {
               youTrun(socketID,room,roomCode);
             } else {
               io.to(roomCode).emit('winOrLost',{value:!/You Lost/.test(game.status) });
-              // unos seg y otra ronda
+              // New rounds
             }
             io.to(roomCode).emit('gotoGame',{game:game});
           });

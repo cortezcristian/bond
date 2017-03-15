@@ -3,4 +3,5 @@ public/components
 .sass-cache
 style.css
 *.swp
+.vscode
 *.swo

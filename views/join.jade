@@ -3,8 +3,8 @@ extends layout
 block content
   form(method="post",action="")
     .list.list-inset
-      label.item.item-input.item-stacked-label
-        span.input-label Nickname
-        input#nickname(type='text', required, placeholder='Username', name="nickname", pattern='^(?!.*\\.\\.)(?!.*\\.$)@?[^\\W][\\w.\\-@]{3,29}$')
+      label.item.item-input.item-stacked-label(style="padding-left: 8px;padding-right: 8px;")
+        span.input-label( style="padding-left: 8px;") Nickname
+        input#nickname(type='text', required, placeholder='Username', name="nickname", pattern='^(?!.*\\.\\.)(?!.*\\.$)@?[^\\W][\\w.\\-@]{3,29}$' style="padding-right: 20px;padding-left: 20px;")
+    .padding
       button.button.button-block.button-calm(type="submit") Join Game
-  script.

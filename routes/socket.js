@@ -30,7 +30,7 @@ module.exports = function(io) {
               }, 2000*(i+1),i, roomCode,g.last_random);
             }
             setTimeout(function(room,socket){
-              io.to(room).emit('showBtn',{ });
+              io.to(room).emit('background',{colorNum : undefined });
               startGame(listSocket,roomCode);
             }, 2000 * (g.last_longitute + 2),roomCode,socket);
           } else {

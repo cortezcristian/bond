@@ -59,10 +59,7 @@ block content
     });
 
     socket.on('background',function(data){
-      $('body').css("background-color",colors[data.colorNum]);
-    });
-    socket.on('showBtn',function(data){
-      $('body').css("background-color","#FFF");
+      $('body').css("background-color", colors[data.colorNum] || '#FFF');
     });
 
     socket.on('youTrun',function(data){

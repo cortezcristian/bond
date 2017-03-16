@@ -31,27 +31,13 @@ module.exports = function(io) {
       });
     });
 
-    function createSocketPlayerList(roomCode){
-      var scktID=[];
-      // console.log(room.sockets,room.length);
+    socket.on('inputGame',function(data){
+      var roomCode='room-'+data.gameCode;
       var room = socket.adapter.rooms[roomCode];
-      for( key in room.sockets){
-        scktID.push(key);
-      }
-      return scktID;
-    }
-    function youTrun(scktID,room,roomCode){
-      io.to(roomCode).emit('youTrun',{ value: false });
-      io.to(scktID[getRandomInt(room.length)]).emit('youTrun',{value:true });
-    }
-    function playGame(socketID,roomCode){
-      var room = socket.adapter.rooms[roomCode];
-      youTrun(socketID,room,roomCode);
-      socket.on('inputGame',function(data){
         Games.findOne({ code: data.gameCode }, function(err, g){
           g.try( data.input, function(err, game){
             if( /In Progress/.test(game.status)){
-              youTrun(socketID,room,roomCode);
+              youTrun(room,roomCode);
             } else {
               var winner = !/You Lost/.test(game.status);
               io.to(roomCode).emit('winOrLost',{value:winner, level: game.rounds.length+1});
@@ -64,10 +50,28 @@ module.exports = function(io) {
             io.to(roomCode).emit('gotoGame',{game:game});
           });
         });
-      });
+    });
+    function createSocketPlayerList(roomCode){
+      var scktID=[];
+      var room = socket.adapter.rooms[roomCode];
+      // console.log(room.sockets,room.length);
+      //console.log(socket.nsp.sockets);
+      //console.log(socket.adapter.rooms);
+      for( key in room.sockets){
+        scktID.push(key);
+      }
+      return scktID;
+    }
+    function youTrun(room,roomCode){
+      var listSocket = createSocketPlayerList(roomCode);
+      io.to(roomCode).emit('youTrun',{ value: false });
+      io.to(listSocket[getRandomInt(room.length)]).emit('youTrun',{value:true });
+    }
+    function playGame(roomCode){
+      var room = socket.adapter.rooms[roomCode];
+      youTrun(room,roomCode);
     }
     function startGame(game,roomCode){
-      var listSocket = createSocketPlayerList(roomCode);
       game.status = 'In Progress';
       game.start = new Date();
       game.save();
@@ -80,7 +84,7 @@ module.exports = function(io) {
       }
       setTimeout(function(room){
         io.to(room).emit('background',{colorNum : undefined });
-        playGame(listSocket,roomCode);
+        playGame(roomCode);
       }, 1500 * (game.last_longitute + 2),roomCode);
     }
 

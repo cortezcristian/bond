@@ -51,11 +51,8 @@ block content
     var youTrun = false;
 
     function inputGame(value){
-      // esta linea esta porque socket solo emite de una pc
-      socket.emit('inputGame',{gameCode: '#{code}',input:value,playerID : '#{player.id}'});
-      // 
       if(youTrun){
-        //socket.emit('inputGame',{gameCode: '#{code}',input:value,playerID : '#{player.id}'});
+        socket.emit('inputGame',{gameCode: '#{code}',input:value,playerID : '#{player.id}'});
       }else{
         barClassTilte('bar-energized',"This isn't your trun.");
       }
